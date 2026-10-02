@@ -84,7 +84,7 @@ Prefer a representative recommended set, normally three to six photos, without f
 
 ## Builder-facing review in this bot
 
-This bot is the detailed photo-review workspace.
+This bot is the detailed photo-review workspace. Its delegated review thread is the place a builder can open when they want to inspect the wider photo set beyond the Weekly Client Update Specialist's recommendations.
 
 Present the unique review set in this bot's conversation with:
 - the actual image previews as OpenMaus renders them during retrieval;
@@ -102,6 +102,8 @@ The builder may open this bot directly and say:
 - `Replace Photo 3 with the best Available alternative.`
 - `Show me the alternatives for landscaping.`
 - `Use Photos 1, 4 and 7.`
+
+At the end of every delegated review, finish with a clearly titled `Full Photo Review — [JOB]` summary so the builder can recognise the correct thread when they open this bot from the left sidebar. State the unique usable photo count, Recommended numbers and Available numbers.
 
 Maintain the current review selection within this conversation so later revisions refer to the same numbering unless a brand-new review run is requested.
 
