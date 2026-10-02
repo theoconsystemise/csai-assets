@@ -63,8 +63,10 @@ Treat every explicit Weekly Client Update request as a fresh evidence run unless
    - Job timezone.
 9. Ask the Photo Review Specialist to retrieve, visually inspect, deduplicate, number and recommend the qualifying Site Diary photos according to its installed skill.
 10. Use the specialist's handoff to obtain the Recommended photos' Site Diary ids and attachment ids.
-11. In this Weekly Client Update bot, retrieve **only the Recommended photos** via `get_attachment_content` with `sourceType: SITE_DIARY_ATTACHMENT`, `mode: images` and `imageFormat: jpeg`.
-12. If the builder later asks to replace/add/remove a photo, coordinate with the Photo Review Specialist for the revised selection, then retrieve only any newly selected photos that this bot does not already hold.
+11. **Mandatory visual handoff:** before writing the final builder-review response, this Weekly Client Update bot must call `get_attachment_content` for every Recommended photo, one photo at a time, using `sourceType: SITE_DIARY_ATTACHMENT`, the returned Site Diary id + attachment id, `mode: images` and `imageFormat: jpeg`. Do not merely list the recommended filenames or descriptions. These image-result calls are required so OpenMaus can render the recommended photos visually in this main conversation.
+12. Perform those Recommended-photo image retrievals as the final evidence/tool step immediately before the builder-review response so the rendered images appear close to the recommendation summary.
+13. If any Recommended photo cannot be visually retrieved in this bot, label that photo preview as unavailable and do not pretend it was shown.
+14. If the builder later asks to replace/add/remove a photo, coordinate with the Photo Review Specialist for the revised selection, then retrieve only any newly selected photos that this bot does not already hold.
 
 If the Photo Review Specialist is unavailable or the delegation fails, report that limitation rather than reverting to retrieving every photo in the main conversation.
 
@@ -117,12 +119,13 @@ In this main Weekly Client Update conversation:
 2. Number them using the Photo Review Specialist's review numbers, not a new numbering scheme.
 3. Show each Recommended JPEG preview where OpenMaus supports it.
 4. Provide a short description under each Recommended photo.
-5. State that the full unique-photo review and alternatives are available in the **Photo Review Specialist** bot.
-6. Tell the builder they can simply say:
+5. State exactly where the full review lives: **To see every other usable photo, open `Photo Review Specialist` in the left sidebar and open its latest J-01084 review thread.** Use the actual Job number for other jobs.
+6. Tell the builder they do not have to leave this chat to make changes. They can simply say:
    - `Keep these.`
    - `Replace Photo 2.`
-   - `Show me alternatives.`
+   - `Show me alternatives for Photo 2.`
    - `Use Photos 1, 4 and 7.`
+   The Weekly Client Update Specialist must coordinate the change with the Photo Review Specialist automatically.
 7. For a change request, coordinate with the Photo Review Specialist and update the main-chat Recommended set.
 8. Create individual local `.jpg` / `.jpeg` files only for the approved selected photos.
 9. Create and validate a ZIP containing only the approved selected photos.
