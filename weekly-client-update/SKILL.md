@@ -22,6 +22,8 @@ Ask only for genuinely missing or ambiguous inputs. Never ask the user for inter
 
 This release is manual-only. Installing or loading this skill must not create, enable or depend on a routine, schedule, startup trigger, watcher or automatic inbox process. Run only after an explicit builder request in the bot conversation. Once invoked, carry out the permitted workflow steps without asking for approval at every read-only step; stop only for a genuinely ambiguous input, a reserved builder decision or an external write requiring the explicit delivery choice defined below.
 
+On a new Weekly Client Update request, retrieve the live Wunderbuild evidence for the requested period. Do not reuse a previous review package, cached draft, prior photo numbering or prior photo selection unless the builder explicitly asks to continue, revise or reuse that prior package.
+
 ## Safety boundary
 
 - Search the named Job before using an ID.
@@ -142,7 +144,9 @@ After creating the Builder Review HTML:
 1. validate that it opens;
 2. verify every expected unique-photo card is present exactly once;
 3. verify the displayed JPEGs correspond to the numbered review set;
-4. expose the HTML file to the builder as **Open photo previews and full review**.
+4. attach/expose the HTML file to the OpenMaus chat as a downloadable file named clearly, for example `J-01084_Builder_Review.html`.
+
+Do not describe the Builder Review HTML as opening automatically in a browser unless the runtime actually provides that behaviour. In current OpenMaus desktop, HTML attachments may download rather than open inline. If the runtime only offers a download, label it clearly as **Download Builder Review HTML** and tell the builder to open the downloaded file in their browser.
 
 In the OpenMaus chat response, do not try to recreate the entire visual gallery. Instead:
 - provide the **Open photo previews and full review** file/link first;
