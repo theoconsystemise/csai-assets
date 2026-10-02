@@ -58,7 +58,7 @@ This release is manual-only. Installing or loading this skill must not create, e
    - sourceType: `SITE_DIARY_ATTACHMENT`
    - the resolved Site Diary id; and
    - the attachment id from that diary.
-8. For image attachments, request image output (`mode: images`) so the model receives the actual image content. For client-review/download packaging, request `imageFormat: jpeg` unless the original file bytes are directly available. Do not treat `uploadUrl: null`, filename, MIME type, size or other attachment metadata as evidence that the photo is unavailable.
+8. For every Site Diary image attachment, call `get_attachment_content` with `mode: images` and explicitly set `imageFormat: jpeg`. Do this on the first retrieval for visual assessment — do not use the tool's default WebP render and do not rely on converting a WebP later. If original uploaded-file bytes become directly available in a future connector response, prefer those originals; otherwise the JPEG render is the canonical working copy for review, selection, ZIP packaging and Gmail attachment. Do not treat `uploadUrl: null`, filename, MIME type, size or other attachment metadata as evidence that the photo is unavailable.
 9. The built-in browser is not part of the normal photo-retrieval path. Do not use browser/computer access for Site Diary photos unless `get_attachment_content` itself fails or returns no usable content, and record that exact failure.
 10. Reuse retrieved records and photo bytes instead of repeatedly fetching them.
 11. Record each failed retrieval without inventing a substitute.
@@ -117,7 +117,7 @@ Avoid:
    - the final builder-selected/recommended client photo set.
 10. Do not describe all inspected images as selected photos. The final builder review section must reference only the selected/recommended set.
 
-Create individual local image files for every selected unique photo using the best-quality image content actually returned by Wunderbuild, preserving a clear source-based filename where practical. Attach or expose those selected files as individually downloadable builder-review files when the runtime supports file attachments.
+Create individual local `.jpg` or `.jpeg` files for every selected unique photo from the JPEG content returned by Wunderbuild, preserving a clear source-based filename where practical. Do not save or attach selected client photos as `.webp`. Attach or expose those selected JPEG files as individually downloadable builder-review files when the runtime supports file attachments.
 
 Create a ZIP containing only the selected unique photos and validate that it opens and contains exactly those selected files. If Wunderbuild's attachment-content operation returns rendered images rather than original uploaded-file bytes, use those rendered images for review/packaging, label the limitation once, and never claim they are originals.
 
@@ -186,7 +186,7 @@ Do not choose an option for the user.
 1. Require a separate explicit request to create the draft.
 2. Confirm the connected sender account, recipient and subject. Never infer an ambiguous recipient.
 3. Use the final client-ready update as the email body.
-4. Attach only builder-approved photos as individual image files.
+4. Attach only builder-approved photos as individual JPEG (`.jpg`/`.jpeg`) image files. Do not attach WebP versions.
 5. Do not attach the ZIP, Sources & Audit report, provenance or internal notes.
 6. Create an unsent draft only. Never send, schedule, reply, forward, publish or press Send.
 7. Report the sender, recipient, subject, individual-photo attachment count and that the draft remains unsent.
