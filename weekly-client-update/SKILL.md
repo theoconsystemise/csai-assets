@@ -126,11 +126,15 @@ Avoid:
 
 After the written update, present a dedicated **Photo Review** section containing the unique-photo review set only.
 
-For each photo show, where supported:
-- the preview;
+The Photo Review is a visual review step, not just a list of downloadable filenames. Where the chat/runtime can display image content, show the actual preview for every unique reviewable photo directly in the Photo Review before the download/file links.
+
+For each photo show:
+- the actual image preview where supported;
 - its review number;
 - a short plain-language description; and
 - **Recommended** or **Available**.
+
+Do not substitute a row of JPEG download links for the visual Photo Review. The downloadable JPEG files are provided after the visual review section as a separate convenience.
 
 Then state the currently recommended selection by number, for example:
 
@@ -179,9 +183,9 @@ Return the result in this order:
 1. Project.
 2. Inclusive reporting period and Job timezone.
 3. Draft client update.
-4. Photo Review showing each unique reviewable photo once, numbered and marked Recommended or Available.
+4. Visual Photo Review showing each unique reviewable photo once, numbered and marked Recommended or Available.
 5. Current recommended/approved selection by photo number.
-6. Individually downloadable approved selected-photo JPEG files where the runtime supports file attachments.
+6. Individually downloadable approved selected-photo JPEG files after the visual Photo Review, where the runtime supports file attachments.
 7. Validated selected-photo ZIP with exact photo count.
 8. Sources & Audit download.
 9. Explicit statement that nothing was sent automatically.
