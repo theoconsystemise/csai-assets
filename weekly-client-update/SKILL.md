@@ -104,22 +104,57 @@ Avoid:
 
 ## Assess and select photos
 
-1. Visually assess every successfully retrieved unique image.
-2. Deduplicate using reliable underlying-content identity or exact digest where possible, not filename alone.
-3. Preserve full provenance for duplicate groups.
-4. Recommend only clear, client-suitable images that support the reported work or useful overall progress.
-5. Prefer a representative set, usually three to six photos, without forcing a target.
-6. Exclude duplicates, blurred or unusable images, safety/privacy-sensitive images, irrelevant views and images that materially pre-date or contradict the reported stage.
-7. Never select an image solely from its filename or metadata.
-8. Retain the usable returned image content locally for review and packaging.
-9. After visual assessment, distinguish clearly between:
-   - all images inspected as evidence; and
-   - the final builder-selected/recommended client photo set.
-10. Do not describe all inspected images as selected photos. The final builder review section must reference only the selected/recommended set.
+1. Visually assess every successfully retrieved image.
+2. Deduplicate before building the builder review set, using reliable underlying-content identity or exact digest where possible, not filename alone.
+3. Preserve full provenance for duplicate groups in the audit, but never show duplicate copies as separate builder-review choices.
+4. Build one **unique-photo review set** from the qualifying period.
+5. Number every unique photo in that review set sequentially: `Photo 1`, `Photo 2`, and so on.
+6. Mark each unique photo as either:
+   - **Recommended** — clear, client-suitable and representative of meaningful reported progress; or
+   - **Available** — usable and relevant enough to keep as an option, but not part of the recommended set.
+7. Exclude from the review set entirely:
+   - exact duplicates;
+   - blurred or unusable images;
+   - safety/privacy-sensitive images;
+   - irrelevant images; and
+   - images that materially pre-date or contradict the reported stage.
+8. Never recommend or retain an image solely from its filename or metadata.
+9. Prefer a representative recommended set, usually three to six photos, without forcing a target.
+10. Retain the usable returned JPEG image content locally for review and packaging.
 
-Create individual local `.jpg` or `.jpeg` files for every selected unique photo from the JPEG content returned by Wunderbuild, preserving a clear source-based filename where practical. Do not save or attach selected client photos as `.webp`. Attach or expose those selected JPEG files as individually downloadable builder-review files when the runtime supports file attachments.
+### Builder photo review
 
-Create a ZIP containing only the selected unique photos and validate that it opens and contains exactly those selected files. If Wunderbuild's attachment-content operation returns rendered images rather than original uploaded-file bytes, use those rendered images for review/packaging, label the limitation once, and never claim they are originals.
+After the written update, present a dedicated **Photo Review** section containing the unique-photo review set only.
+
+For each photo show, where supported:
+- the preview;
+- its review number;
+- a short plain-language description; and
+- **Recommended** or **Available**.
+
+Then state the currently recommended selection by number, for example:
+
+`Recommended: Photos 1, 3 and 6.`
+
+Tell the builder they can reply naturally, for example:
+- `Remove Photo 3.`
+- `Add Photo 5.`
+- `Use Photos 1, 4 and 7.`
+- `Keep the recommended photos.`
+
+Do not require the builder to make a change. If they accept the recommended set, that becomes the approved client-photo set.
+
+OpenMaus may automatically display raw MCP image results earlier in the transcript while images are being inspected. Those platform-generated tool-result previews are not the Photo Review and may include duplicates. Never describe that raw gallery as the review set, and never use its order as the builder-facing photo numbering.
+
+### Selected-photo files and ZIP
+
+Create individual local `.jpg` or `.jpeg` files for every photo in the current approved client-photo set from the JPEG content returned by Wunderbuild, preserving a clear source-based filename where practical. Do not save or attach selected client photos as `.webp`.
+
+Attach or expose the approved selected JPEG files as individually downloadable builder-review files when the runtime supports file attachments.
+
+Create a ZIP containing only the approved selected unique photos and validate that it opens and contains exactly those selected files.
+
+If Wunderbuild's attachment-content operation returns rendered images rather than original uploaded-file bytes, use those rendered JPEGs for review and packaging, label the limitation once, and never claim they are originals.
 
 ## Create Sources & Audit
 
@@ -144,14 +179,15 @@ Return the result in this order:
 1. Project.
 2. Inclusive reporting period and Job timezone.
 3. Draft client update.
-4. Selected photos only, with previews where supported; do not label the complete inspected-photo set as selected.
-5. Individually downloadable selected-photo files where the runtime supports file attachments.
-6. Validated selected-photo ZIP with exact photo count.
-7. Sources & Audit download.
-8. Explicit statement that nothing was sent automatically.
-9. Measured runtime, or state that runtime was not exposed.
-10. Platform limitations, or `None recorded`.
-11. Post-review delivery choice.
+4. Photo Review showing each unique reviewable photo once, numbered and marked Recommended or Available.
+5. Current recommended/approved selection by photo number.
+6. Individually downloadable approved selected-photo JPEG files where the runtime supports file attachments.
+7. Validated selected-photo ZIP with exact photo count.
+8. Sources & Audit download.
+9. Explicit statement that nothing was sent automatically.
+10. Measured runtime, or state that runtime was not exposed.
+11. Platform limitations, or `None recorded`.
+12. Post-review delivery choice.
 
 If required data, image content, ZIP creation or audit creation fails, preserve any valid written draft but label the overall result incomplete and state the exact limitation. Never claim that a file exists unless it was created and validated.
 
@@ -161,8 +197,8 @@ OpenMaus may automatically render image blocks returned by MCP tool calls while 
 
 ## Builder review
 
-- Accept ordinary-language wording revisions and photo-selection changes.
-- Rebuild and validate the ZIP after selection changes, using retained files.
+- Accept ordinary-language wording revisions and photo-selection changes by review number.
+- When the builder adds/removes/replaces photos, update Recommended/Available status as needed, rebuild the approved selection, and rebuild/validate the ZIP using retained JPEG files.
 - Never silently overwrite builder edits.
 - Distinguish builder-supplied facts from Wunderbuild-supported wording.
 - Do not move into delivery until the review package exists.
