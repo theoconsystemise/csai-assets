@@ -124,31 +124,39 @@ Avoid:
 
 ### Builder photo review
 
-After the written update, present a dedicated **Photo Review** section containing the unique-photo review set only.
+Create a local **Builder Review HTML** file as the canonical visual photo-review experience. Do not depend on OpenMaus chat itself to render the final review gallery correctly.
 
-The Photo Review is a visual review step, not just a list of downloadable filenames. Where the chat/runtime can display image content, show the actual preview for every unique reviewable photo directly in the Photo Review before the download/file links.
+The Builder Review HTML must contain:
+- the project/job and reporting period;
+- the final draft client update;
+- one visual card for every photo in the **unique-photo review set**, and no duplicate copies;
+- each card's review number (`Photo 1`, `Photo 2`, etc.);
+- the actual JPEG preview;
+- a short plain-language description;
+- a clear **Recommended** or **Available** label; and
+- the current recommended selection summarised by review number.
 
-For each photo show:
-- the actual image preview where supported;
-- its review number;
-- a short plain-language description; and
-- **Recommended** or **Available**.
+Arrange the photo cards in a clean responsive grid that is easy for a builder to scan. Recommended photos must be visually obvious without hiding the Available photos.
 
-Do not substitute a row of JPEG download links for the visual Photo Review. The downloadable JPEG files are provided after the visual review section as a separate convenience.
+After creating the Builder Review HTML:
+1. validate that it opens;
+2. verify every expected unique-photo card is present exactly once;
+3. verify the displayed JPEGs correspond to the numbered review set;
+4. expose the HTML file to the builder as **Open photo previews and full review**.
 
-Then state the currently recommended selection by number, for example:
-
-`Recommended: Photos 1, 3 and 6.`
-
-Tell the builder they can reply naturally, for example:
-- `Remove Photo 3.`
-- `Add Photo 5.`
-- `Use Photos 1, 4 and 7.`
-- `Keep the recommended photos.`
+In the OpenMaus chat response, do not try to recreate the entire visual gallery. Instead:
+- provide the **Open photo previews and full review** file/link first;
+- state the recommended selection by number;
+- provide the selected JPEG downloads and selected-photo ZIP;
+- remind the builder they can reply naturally, for example:
+  - `Remove Photo 3.`
+  - `Add Photo 5.`
+  - `Use Photos 1, 4 and 7.`
+  - `Keep the recommended photos.`
 
 Do not require the builder to make a change. If they accept the recommended set, that becomes the approved client-photo set.
 
-OpenMaus may automatically display raw MCP image results earlier in the transcript while images are being inspected. Those platform-generated tool-result previews are not the Photo Review and may include duplicates. Never describe that raw gallery as the review set, and never use its order as the builder-facing photo numbering.
+OpenMaus may automatically display raw MCP image results earlier in the transcript while images are being inspected. Those platform-generated tool-result previews are not the Builder Review and may include duplicates. Never describe that raw gallery as the review set, and never use its order as the builder-facing photo numbering.
 
 ### Selected-photo files and ZIP
 
@@ -183,9 +191,9 @@ Return the result in this order:
 1. Project.
 2. Inclusive reporting period and Job timezone.
 3. Draft client update.
-4. Visual Photo Review showing each unique reviewable photo once, numbered and marked Recommended or Available.
+4. Builder Review HTML download/link (`Open photo previews and full review`) containing the visual unique-photo review set, numbered and marked Recommended or Available.
 5. Current recommended/approved selection by photo number.
-6. Individually downloadable approved selected-photo JPEG files after the visual Photo Review, where the runtime supports file attachments.
+6. Individually downloadable approved selected-photo JPEG files after the Builder Review link, where the runtime supports file attachments.
 7. Validated selected-photo ZIP with exact photo count.
 8. Sources & Audit download.
 9. Explicit statement that nothing was sent automatically.
@@ -202,7 +210,7 @@ OpenMaus may automatically render image blocks returned by MCP tool calls while 
 ## Builder review
 
 - Accept ordinary-language wording revisions and photo-selection changes by review number.
-- When the builder adds/removes/replaces photos, update Recommended/Available status as needed, rebuild the approved selection, and rebuild/validate the ZIP using retained JPEG files.
+- When the builder adds/removes/replaces photos, update Recommended/Available status as needed, rebuild the approved selection, regenerate/validate the Builder Review HTML, and rebuild/validate the ZIP using retained JPEG files.
 - Never silently overwrite builder edits.
 - Distinguish builder-supplied facts from Wunderbuild-supported wording.
 - Do not move into delivery until the review package exists.
