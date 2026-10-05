@@ -208,11 +208,22 @@ Do not choose an option for the user.
 
 1. Require a separate explicit request to create the draft.
 2. Confirm the connected sender account, recipient and subject. Never infer an ambiguous recipient.
-3. Use the final client-ready update as the email body.
-4. Attach only builder-approved photos as individual JPEG (`.jpg`/`.jpeg`) image files. Do not attach WebP versions.
-5. Do not attach the ZIP, Sources & Audit report, provenance or internal notes.
-6. Create an unsent draft only. Never send, schedule, reply, forward, publish or press Send.
-7. Report the sender, recipient, subject, individual-photo attachment count and that the draft remains unsent.
+3. Resolve the client's preferred first name from the confirmed Wunderbuild client/contact record associated with the approved recipient. If the first name is missing or genuinely ambiguous, ask before creating the draft rather than guessing.
+4. Resolve the builder's preferred sign-off name from builder configuration where available. If no configured sign-off exists, use a clearly verified sender/display name only when unambiguous; otherwise ask before creating the draft.
+5. Build the email body in this form:
+
+   `Hi [Client first name],`
+
+   [final approved client-ready update]
+
+   `Regards,`  
+   `[Builder sign-off name]`
+
+   Preserve any builder-approved wording edits in the update itself.
+6. Attach only builder-approved photos as individual JPEG (`.jpg`/`.jpeg`) image files. Do not attach WebP versions.
+7. Do not attach the ZIP, Sources & Audit report, provenance or internal notes.
+8. Create an unsent draft only. Never send, schedule, reply, forward, publish or press Send.
+9. Report the sender, recipient, subject, client greeting name, builder sign-off name, individual-photo attachment count and that the draft remains unsent.
 
 ### Option 2 — Prepare for Wunderbuild
 
