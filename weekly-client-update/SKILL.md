@@ -24,6 +24,12 @@ This release is manual-only. Installing or loading this skill must not create, e
 
 Treat every explicit Weekly Client Update request as a fresh evidence run unless the builder explicitly asks to continue or revise an earlier run. Retrieve the live Wunderbuild evidence for the requested period. Do not reference or reuse earlier review packages, cached drafts, prior photo numbering, prior photo selections or generated files unless the builder explicitly asks for that continuity.
 
+## Runtime portability
+
+This Skill defines the canonical workflow logic and required outcome. Keep runtime-specific tool names, browser mechanics, image/file rendering methods, navigation instructions and bot-to-bot handoff mechanics outside the canonical Skill where practical.
+
+Use the runtime's supported authorised capabilities to complete the required workflow without changing the business rules, evidence standard, approval boundaries or builder-facing outcome. If a required capability is unavailable, report the limitation accurately rather than inventing a substitute action or weakening the workflow.
+
 ## Safety boundary
 
 - Search the named Job before using an ID.
@@ -63,9 +69,9 @@ Treat every explicit Weekly Client Update request as a fresh evidence run unless
    - Job timezone.
 9. Ask the Photo Review Specialist to retrieve, visually inspect, deduplicate, number and recommend the qualifying Site Diary photos according to its installed skill.
 10. Use the specialist's handoff to obtain the Recommended photos' Site Diary ids and attachment ids.
-11. **Mandatory visual handoff:** before writing the final builder-review response, this Weekly Client Update bot must call `get_attachment_content` for every Recommended photo, one photo at a time, using `sourceType: SITE_DIARY_ATTACHMENT`, the returned Site Diary id + attachment id, `mode: images` and `imageFormat: jpeg`. Do not merely list the recommended filenames or descriptions. These image-result calls are required so OpenMaus can render the recommended photos visually in this main conversation.
-12. Perform those Recommended-photo image retrievals as the final evidence/tool step immediately before the builder-review response so the rendered images appear close to the recommendation summary.
-13. If any Recommended photo cannot be visually retrieved in this bot, label that photo preview as unavailable and do not pretend it was shown.
+11. **Mandatory visual handoff:** before writing the final builder-review response, retrieve the actual image content for every Recommended photo using the runtime's supported authorised Wunderbuild attachment/image capability and the stable Site Diary/attachment identifiers supplied by the Photo Review Specialist. Do not merely list filenames or descriptions. The purpose is to show the actual Recommended photos visually in the Weekly Client Update conversation.
+12. Retrieve the Recommended-photo image content as the final evidence/tool step immediately before the builder-review response where the runtime supports that ordering, so the visual previews appear close to the recommendation summary.
+13. If any Recommended photo cannot be visually retrieved or rendered in this conversation, label that photo preview as unavailable and do not pretend it was shown.
 14. If the builder later asks to replace/add/remove a photo, coordinate with the Photo Review Specialist for the revised selection, then retrieve only any newly selected photos that this bot does not already hold.
 
 If the Photo Review Specialist is unavailable or the delegation fails, report that limitation rather than reverting to retrieving every photo in the main conversation.
@@ -117,18 +123,18 @@ In this main Weekly Client Update conversation:
 
 1. Show only the current Recommended photos.
 2. Number them using the Photo Review Specialist's review numbers, not a new numbering scheme.
-3. Show each Recommended JPEG preview where OpenMaus supports it.
+3. Show each Recommended JPEG preview using the runtime's supported visual-preview capability. If a preview cannot be rendered, mark it unavailable and do not imply that it was shown.
 4. Provide a short description under each Recommended photo.
-5. State exactly where the full review lives: **To see every other usable photo, open `Photo Review Specialist` in the left sidebar and open its latest J-01084 review thread.** Use the actual Job number for other jobs.
-6. Tell the builder they do not have to leave this chat to make changes. They can simply say:
+5. Keep the detailed all-photo review in the Photo Review Specialist context. If the builder explicitly asks to inspect the full photo set, use the runtime's available bot/thread navigation or delegation mechanism to provide access without hardcoding a platform-specific UI location.
+6. Tell the builder they do not have to leave this conversation to make changes. They can simply say:
    - `Keep these.`
    - `Replace Photo 2.`
    - `Show me alternatives for Photo 2.`
    - `Use Photos 1, 4 and 7.`
    The Weekly Client Update Specialist must coordinate the change with the Photo Review Specialist automatically.
 7. For a change request, coordinate with the Photo Review Specialist and update the main-chat Recommended set.
-8. Create individual local `.jpg` / `.jpeg` files only for the approved selected photos.
-9. Create and validate a ZIP containing only the approved selected photos.
+8. Create individual `.jpg` / `.jpeg` files only for the approved selected photos using the runtime's supported file-handling capability.
+9. Create and validate a ZIP containing only the approved selected photos where the runtime supports file creation. If it does not, report that limitation without affecting the approved photo selection.
 
 Do not retrieve or display all qualifying photos in this main bot. The detailed all-photo review belongs in the Photo Review Specialist conversation.
 
