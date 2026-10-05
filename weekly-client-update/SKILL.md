@@ -53,7 +53,7 @@ Use the runtime's supported authorised capabilities to complete the required wor
 8. If a natural-language period could reasonably mean more than one date range, show the interpreted inclusive range and ask for confirmation before retrieval. Do not ask when the range is unambiguous under these rules.
 9. Validate that the start date is not later than the end date.
 
-## Retrieve Site Diaries and delegate photo review
+## Retrieve Site Diaries and review photos
 
 1. Query a widened timestamp window so UTC boundaries cannot omit a qualifying diary: local start minus one day through local end plus two days, using an exclusive upper boundary where required.
 2. Paginate until retrieval is complete.
@@ -61,21 +61,18 @@ Use the runtime's supported authorised capabilities to complete the required wor
 4. Retrieve diary details before filtering when a list row lacks a reliable timestamp.
 5. Flag title, timestamp or diary-date inconsistencies in the audit.
 6. Retrieve every qualifying diary's full questions and answers for the written client update.
-7. Do **not** retrieve every Site Diary photo in this bot. That would clutter the builder's main conversation with raw MCP image previews.
-8. Delegate the photo review to the teammate named **Photo Review Specialist**, supplying:
-   - resolved Job number/name;
-   - resolved Job id if useful;
-   - inclusive Job-local reporting period; and
-   - Job timezone.
-9. Ask the Photo Review Specialist to retrieve, visually inspect, deduplicate, number and recommend the qualifying Site Diary photos according to its installed skill.
-10. Use the specialist's handoff to obtain the Recommended photos' Site Diary ids and attachment ids.
-11. **Mandatory visual handoff:** before writing the final builder-review response, retrieve the actual image content for every Recommended photo using the runtime's supported authorised Wunderbuild attachment/image capability and the stable Site Diary/attachment identifiers supplied by the Photo Review Specialist. Do not merely list filenames or descriptions. The purpose is to show the actual Recommended photos visually in the Weekly Client Update conversation.
-12. Retrieve the Recommended-photo image content as the final evidence/tool step immediately before the builder-review response where the runtime supports that ordering, so the visual previews appear close to the recommendation summary.
-13. If any Recommended photo cannot be visually retrieved or rendered in this conversation, label that photo preview as unavailable and do not pretend it was shown.
-14. If the builder later asks to replace/add/remove a photo, coordinate with the Photo Review Specialist for the revised selection, then retrieve only any newly selected photos that this bot does not already hold.
+7. Apply the installed **ConsystemAI Photo Review** Skill to the qualifying Site Diary photos. By default, perform this photo-review method within the Weekly Client Update Specialist itself.
+8. Retrieve the actual image content needed to visually inspect every qualifying image attachment. Never select photos from filenames or metadata alone.
+9. Deduplicate, number and classify the unique usable photos according to the Photo Review Skill, preserving source provenance and stable review numbers for the run.
+10. Build a representative Recommended set and retain the remaining usable photos as Available alternatives.
+11. A runtime may delegate the Photo Review Skill to a separate worker only when delegation materially improves execution, permissions, context management or builder experience. A separate Photo Review bot is not required by this Skill.
+12. Before writing the final builder-review response, ensure the actual image content for every Recommended photo has been retrieved and is available for visual presentation where the runtime supports it.
+13. Show only the Recommended photos in the normal builder-review result. Do not intentionally dump the full qualifying photo set into the final response.
+14. If the runtime automatically exposes raw image/tool previews during retrieval, continue the workflow and keep the final builder-facing result limited to the Recommended set.
+15. If any Recommended photo cannot be visually retrieved or rendered in the builder-review response, label that preview as unavailable and do not pretend it was shown.
+16. If the builder later asks to replace/add/remove a photo, use the retained Photo Review state to revise the selection and retrieve only any newly selected photo content that is not already available.
 
-If the Photo Review Specialist is unavailable or the delegation fails, report that limitation rather than reverting to retrieving every photo in the main conversation.
-
+If the Photo Review Skill cannot be applied or the runtime cannot visually inspect the actual photo content, report that limitation rather than selecting from metadata alone.
 ## Control the evidence
 
 - Read all qualifying diary responses before drafting.
@@ -115,29 +112,27 @@ Avoid:
 - `Works at the King Street residence advanced...`
 - repeatedly restating the street/project name in the body.
 
-## Use the specialist photo selection
+## Use the Photo Review selection
 
-Treat the Photo Review Specialist as the source of truth for the current photo-review numbering, Recommended set, Available alternatives and duplicate decisions.
+Treat the current Photo Review state as the source of truth for review numbering, the Recommended set, Available alternatives and duplicate decisions.
 
-In this main Weekly Client Update conversation:
+In the Weekly Client Update conversation:
 
 1. Show only the current Recommended photos.
-2. Number them using the Photo Review Specialist's review numbers, not a new numbering scheme.
+2. Number them using the Photo Review Skill's stable review numbers, not a new numbering scheme.
 3. Show each Recommended JPEG preview using the runtime's supported visual-preview capability. If a preview cannot be rendered, mark it unavailable and do not imply that it was shown.
 4. Provide a short description under each Recommended photo.
-5. Keep the detailed all-photo review in the Photo Review Specialist context. If the builder explicitly asks to inspect the full photo set, use the runtime's available bot/thread navigation or delegation mechanism to provide access without hardcoding a platform-specific UI location.
-6. Tell the builder they do not have to leave this conversation to make changes. They can simply say:
+5. Keep the full unique-photo review available internally for revisions or on explicit builder request; do not expose it by default.
+6. Tell the builder they can simply say:
    - `Keep these.`
    - `Replace Photo 2.`
    - `Show me alternatives for Photo 2.`
    - `Use Photos 1, 4 and 7.`
-   The Weekly Client Update Specialist must coordinate the change with the Photo Review Specialist automatically.
-7. For a change request, coordinate with the Photo Review Specialist and update the main-chat Recommended set.
+7. For a change request, revise the current Photo Review selection and update the Recommended set while keeping the same review numbering where possible.
 8. Create individual `.jpg` / `.jpeg` files only for the approved selected photos using the runtime's supported file-handling capability.
 9. Create and validate a ZIP containing only the approved selected photos where the runtime supports file creation. If it does not, report that limitation without affecting the approved photo selection.
 
-Do not retrieve or display all qualifying photos in this main bot. The detailed all-photo review belongs in the Photo Review Specialist conversation.
-
+Do not display the entire qualifying photo set in the normal Weekly Client Update result. The detailed all-photo review is an internal review state unless the builder explicitly asks to inspect it.
 ## Create Sources & Audit
 
 Create one downloadable internal Sources & Audit report containing:
@@ -163,7 +158,7 @@ Return only:
 1. A clear heading: **Weekly Client Update — ready for review**
 2. Project and inclusive reporting period.
 3. The draft client update.
-4. A **Recommended photos** section showing only the current Recommended photos, using the Photo Review Specialist's review numbers.
+4. A **Recommended photos** section showing only the current Recommended photos, using the Photo Review Skill's review numbers.
 5. A clear final action block at the very bottom:
 
 > **What would you like to do?**
@@ -180,17 +175,17 @@ Keep those internal artefacts available for verification or on request, but do n
 
 If the builder says **Keep these photos**, treat the current recommended photo set as approved and move to the post-review delivery choice.
 
-If the builder says **Show me alternatives**, coordinate with the Photo Review Specialist and show a small set of useful alternatives in this conversation.
+If the builder says **Show me alternatives**, use the current Photo Review state to show a small set of useful alternatives in this conversation.
 
-If the builder asks to replace a photo, coordinate with the Photo Review Specialist, present the replacement, and return the same simple action block again.
+If the builder asks to replace a photo, revise the current Photo Review selection, present the replacement, and return the same simple action block again.
 
 ## Builder review
 
 - Accept ordinary-language wording revisions.
 - Accept `Keep these photos`, `Show me alternatives`, and natural replacement requests such as `Replace Photo 2`.
-- Keep the Photo Review Specialist behind the scenes during the normal workflow. Do not tell the builder to open another bot unless they explicitly ask to inspect the full photo set.
+- Keep the detailed Photo Review state behind the scenes during the normal workflow. Do not require the builder to open another bot to change the selection.
 - When alternatives are requested, return only a small useful set, not the entire photo library.
-- When the builder changes the selection, coordinate with the Photo Review Specialist and keep the same review numbering where possible.
+- When the builder changes the selection, revise the current Photo Review state and keep the same review numbering where possible.
 - Do not create the final ZIP or client-delivery attachments until the builder has approved the photo set.
 - Never silently overwrite builder wording edits.
 - Distinguish builder-supplied facts from Wunderbuild-supported wording internally.
