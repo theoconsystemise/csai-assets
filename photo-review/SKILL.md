@@ -36,20 +36,20 @@ Accept:
 
 If the Job or period is ambiguous, ask only for the missing clarification.
 
+## Runtime portability
+
+This Skill defines the canonical photo-review logic and required handoff. Keep runtime-specific tool names, browser mechanics, image rendering methods, navigation instructions and bot-to-bot transfer mechanics outside the canonical Skill where practical.
+
+Use the runtime's supported authorised Wunderbuild and file/image capabilities without changing the evidence standard, selection rules or builder-facing outcome. If the runtime cannot retrieve or visually inspect the actual photo content, report the limitation rather than selecting from metadata alone.
+
 ## Retrieve photos
 
 1. Resolve the Job and use its authoritative IANA timezone if not supplied.
 2. List Site Diaries for the requested inclusive Job-local date range, widening the timestamp query where needed so UTC boundaries do not omit a qualifying diary.
 3. Fetch each qualifying diary's detail and attachment metadata.
-4. For every image attachment, retrieve the actual image through Wunderbuild:
-   - action: `get_attachment_content`
-   - sourceType: `SITE_DIARY_ATTACHMENT`
-   - source Site Diary id
-   - attachment id
-   - `mode: images`
-   - `imageFormat: jpeg`
-5. Visually assess the actual returned JPEG content. Never select from filenames or metadata alone.
-6. Do not use the built-in browser unless `get_attachment_content` itself fails.
+4. For every image attachment, retrieve the actual image content through the runtime's supported authorised Wunderbuild attachment/image capability, using the source Site Diary id and attachment id or equivalent stable identifiers.
+5. Obtain a visually reviewable image representation, preferably JPEG where the runtime supports format choice, and visually assess the actual image content. Never select from filenames or metadata alone.
+6. Prefer the structured Wunderbuild connection/API for attachment retrieval. Use browser/computer fallback only when the structured path cannot retrieve the required image content and the runtime's approved execution path supports that fallback.
 
 ## Deduplicate before review
 
@@ -87,14 +87,14 @@ Prefer a representative recommended set, normally three to six photos, without f
 This bot is the detailed photo-review workspace. Its delegated review thread is the place a builder can open when they want to inspect the wider photo set beyond the Weekly Client Update Specialist's recommendations.
 
 Present the unique review set in this bot's conversation with:
-- the actual image previews as OpenMaus renders them during retrieval;
+- the actual image previews using the runtime's supported visual-preview capability;
 - a compact numbered summary after retrieval;
 - each unique photo's plain-language description;
 - Recommended or Available;
 - source diary local date;
 - and the current recommended selection.
 
-Because OpenMaus may display raw MCP image results during retrieval, explicitly state after retrieval which displayed images are duplicates/excluded and which unique review number corresponds to each retained photo.
+If the runtime displays raw attachment/image results during retrieval, explicitly state after retrieval which displayed images are duplicates/excluded and which unique review number corresponds to each retained photo.
 
 The builder may open this bot directly and say:
 - `Remove Photo 2 from the recommended set.`
@@ -103,7 +103,7 @@ The builder may open this bot directly and say:
 - `Show me the alternatives for landscaping.`
 - `Use Photos 1, 4 and 7.`
 
-At the end of every delegated review, finish with a clearly titled `Full Photo Review — [JOB]` summary so the builder can recognise the correct thread when they open this bot from the left sidebar. State the unique usable photo count, Recommended numbers and Available numbers.
+At the end of every delegated review, finish with a clearly titled `Full Photo Review — [JOB]` summary so the builder can recognise the correct review when accessing the Photo Review Specialist through the runtime's available bot/thread navigation. State the unique usable photo count, Recommended numbers and Available numbers.
 
 Maintain the current review selection within this conversation so later revisions refer to the same numbering unless a brand-new review run is requested.
 
