@@ -33,13 +33,14 @@ Use the runtime's supported authorised capabilities to complete the required wor
 ## Safety boundary
 
 - Search the named Job before using an ID.
-- Use read-only Wunderbuild operations during generation.
-- Never create, alter, publish, share or delete anything in Wunderbuild.
+- Use read-only Wunderbuild operations during generation and builder review.
 - Never fabricate records, images, files, retrievals or support for a statement.
-- Treat every result as a draft requiring builder review.
+- Treat every generated result as a draft requiring builder review.
 - Never send an email or Wunderbuild communication automatically.
 - Create an unsent email draft only after a separate explicit user instruction and confirmed sender, recipient and subject.
-- If a connector cannot guarantee draft-only behaviour, stop without creating anything.
+- Publish a Wunderbuild client communication only after the builder has approved the final wording and photo selection, selected the Wunderbuild delivery option, reviewed the exact target/message/attachments, and given a separate explicit publish approval.
+- Do not create client portal access, invite a client, create a client-facing channel or change channel membership as part of normal Weekly Client Update delivery. If required delivery setup is missing, stop and report the setup requirement for separate authorisation.
+- If a connector cannot guarantee draft-only behaviour for Gmail, stop without creating anything.
 
 ## Resolve the Job and reporting period
 
@@ -73,6 +74,7 @@ Use the runtime's supported authorised capabilities to complete the required wor
 16. If the builder later asks to replace/add/remove a photo, use the retained Photo Review state to revise the selection and retrieve only any newly selected photo content that is not already available.
 
 If the Photo Review Skill cannot be applied or the runtime cannot visually inspect the actual photo content, report that limitation rather than selecting from metadata alone.
+
 ## Control the evidence
 
 - Read all qualifying diary responses before drafting.
@@ -133,6 +135,7 @@ In the Weekly Client Update conversation:
 9. Create and validate a ZIP containing only the approved selected photos where the runtime supports file creation. If it does not, report that limitation without affecting the approved photo selection.
 
 Do not display the entire qualifying photo set in the normal Weekly Client Update result. The detailed all-photo review is an internal review state unless the builder explicitly asks to inspect it.
+
 ## Create Sources & Audit
 
 Create one downloadable internal Sources & Audit report containing:
@@ -197,7 +200,7 @@ Only after the builder has approved the wording and photo selection, ask:
 > **Ready to deliver. What would you like to do?**
 >
 > - **Create Gmail draft**
-> - **Prepare for Wunderbuild**
+> - **Publish to Wunderbuild**
 > - **No delivery yet**
 >
 > Nothing will be sent automatically.
@@ -225,15 +228,34 @@ Do not choose an option for the user.
 8. Create an unsent draft only. Never send, schedule, reply, forward, publish or press Send.
 9. Report the sender, recipient, subject, client greeting name, builder sign-off name, individual-photo attachment count and that the draft remains unsent.
 
-### Option 2 — Prepare for Wunderbuild
+### Option 2 — Publish to Wunderbuild
 
-Provide a manual Wunderbuild handoff containing:
+Use this option only where the runtime has an authorised, tested Wunderbuild client-messaging write path.
 
-- final copy-ready client update text;
-- builder-approved photos as accessible individual files; and
-- a clear note that the builder must choose the correct client conversation in Wunderbuild, attach the photos, review the message and send it manually.
+1. Require the builder to explicitly choose **Publish to Wunderbuild** after the wording and photo selection are approved.
+2. Resolve the exact Job again and locate the intended client-facing Job channel/conversation.
+3. Confirm that the channel is client-facing, active and associated with the resolved Job.
+4. Confirm the intended client has portal/channel access and is a member/recipient of that channel. Do not rely on a contact link alone.
+5. If the contact name, client portal identity, email or channel-member identity is inconsistent or ambiguous, stop unless the builder explicitly resolves or accepts the mismatch for that specific delivery.
+6. If no suitable client-facing channel exists, or the client lacks the required portal/channel access, stop and report the setup requirement. Do not invite the client, create portal access, create a channel or alter membership as part of this delivery action.
+7. Resolve the client's preferred first name from the confirmed Wunderbuild client/contact record and the builder's preferred sign-off name using the same rules as the Gmail draft option.
+8. Build the exact client-facing message using the approved update, greeting and sign-off.
+9. Prepare only the builder-approved photos as individual JPEG attachments. Do not include the ZIP, Sources & Audit report, provenance or internal notes.
+10. Before publishing, show the builder:
+    - exact Job;
+    - exact client-facing channel/conversation;
+    - intended client recipient/member;
+    - complete message text;
+    - exact approved photo attachments; and
+    - that publishing makes the message client-visible immediately where applicable.
+11. Obtain a separate explicit approval to publish this exact payload. Approval to generate the update, approve photos or choose the delivery option is not by itself approval to publish.
+12. Publish exactly once.
+13. If the publish call errors, times out or returns an uncertain result, re-read the target channel before retrying. Never retry blindly.
+14. Re-read the target channel after publishing and verify that exactly one new message exists with the approved message text.
+15. Verify the approved attachments persisted. Prefer a structured re-read when attachment metadata is exposed; otherwise use the runtime's authorised browser/computer view where practical. If attachment persistence cannot be verified, report the message as confirmed and the attachments as unverified.
+16. Report the confirmed result, including Job, channel, message count, attachment count and any unresolved visibility/notification limitation.
 
-Do not create, paste, publish or send a Wunderbuild message. Do not claim that Wunderbuild delivery has occurred.
+Do not claim that portal notification or email notification occurred unless the runtime can actually verify it.
 
 ### Option 3 — No delivery yet
 
@@ -243,10 +265,12 @@ Take no external action. Confirm that the result remains available for further b
 
 Never:
 
-- send a client communication;
-- write to Wunderbuild;
-- select an unconfirmed sender or recipient;
+- send or publish a client communication without the explicit delivery approval required above;
+- write to unrelated Wunderbuild records as part of this workflow;
+- create client portal access, invite clients, create client-facing channels or change channel membership as an implicit delivery step;
+- select an unconfirmed sender, recipient, Job or client-facing channel;
 - attach internal audit material to client communication;
 - expose credentials;
-- fabricate supporting evidence; or
-- imply that builder review or delivery occurred when it did not.
+- fabricate supporting evidence;
+- retry an uncertain publish without first checking whether it already persisted; or
+- imply that builder review, attachment persistence, notification or delivery occurred when it did not.
