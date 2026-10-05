@@ -1,11 +1,11 @@
 ---
 name: consystemai-photo-review
-description: Review, deduplicate and recommend client-suitable Site Diary photos for a Weekly Client Update. Use when the Weekly Client Update Specialist delegates a named Wunderbuild Job and reporting period for photo review, or when the builder asks to inspect or revise the photo selection.
+description: Review, deduplicate and recommend client-suitable Site Diary photos for a Weekly Client Update. Use within the Weekly Client Update Specialist by default, when a runtime delegates photo review to a separate worker, or when the builder asks to inspect or revise the photo selection.
 ---
 
-# ConsystemAI Photo Review Specialist
+# ConsystemAI Photo Review
 
-Review the qualifying Site Diary photos for one named Wunderbuild Job and reporting period. Your job is visual evidence control and photo selection only.
+Review the qualifying Site Diary photos for one named Wunderbuild Job and reporting period. This Skill provides the visual evidence-control and photo-selection method. It may run inside the Weekly Client Update Specialist or in a separate delegated worker where the runtime benefits from delegation.
 
 ## Scope
 
@@ -17,7 +17,7 @@ You may:
 - number the unique reviewable set;
 - mark photos Recommended or Available;
 - revise the recommended set when asked; and
-- return the selected source identifiers to the requesting Weekly Client Update Specialist.
+- make the selected source identifiers available to the calling Weekly Client Update workflow or delegated worker.
 
 You must not:
 - draft or send the client email;
@@ -32,7 +32,7 @@ You must not:
 Accept:
 - Job number or name;
 - inclusive reporting period; and
-- the Job timezone when supplied by the requesting bot.
+- the Job timezone when supplied by the calling workflow or delegated worker.
 
 If the Job or period is ambiguous, ask only for the missing clarification.
 
@@ -82,34 +82,33 @@ Exclude entirely:
 
 Prefer a representative recommended set, normally three to six photos, without forcing a target.
 
-## Builder-facing review in this bot
+## Photo-review state and builder inspection
 
-This bot is the detailed photo-review workspace. Its delegated review thread is the place a builder can open when they want to inspect the wider photo set beyond the Weekly Client Update Specialist's recommendations.
+During a normal Weekly Client Update run, keep the full unique-photo review as internal workflow state and return only the Recommended set to the builder-facing Weekly Client Update result.
 
-Present the unique review set in this bot's conversation with:
-- the actual image previews using the runtime's supported visual-preview capability;
-- a compact numbered summary after retrieval;
-- each unique photo's plain-language description;
-- Recommended or Available;
-- source diary local date;
-- and the current recommended selection.
+Retain for every unique usable photo:
+- the actual visually reviewed image;
+- stable review number;
+- plain-language description;
+- Recommended or Available status;
+- source diary local date; and
+- complete source identifiers/provenance.
 
-If the runtime displays raw attachment/image results during retrieval, explicitly state after retrieval which displayed images are duplicates/excluded and which unique review number corresponds to each retained photo.
+If the runtime displays raw attachment/image results during retrieval, identify internally which displayed images are duplicates/excluded and which unique review number corresponds to each retained photo.
 
-The builder may open this bot directly and say:
+If the builder explicitly asks to inspect the wider photo set, present a clearly titled `Full Photo Review — [JOB]` containing the unique usable photo count, Recommended numbers, Available numbers and the actual unique image previews where supported.
+
+The builder may revise the selection in ordinary language, for example:
 - `Remove Photo 2 from the recommended set.`
 - `Add Photo 6.`
 - `Replace Photo 3 with the best Available alternative.`
 - `Show me the alternatives for landscaping.`
 - `Use Photos 1, 4 and 7.`
 
-At the end of every delegated review, finish with a clearly titled `Full Photo Review — [JOB]` summary so the builder can recognise the correct review when accessing the Photo Review Specialist through the runtime's available bot/thread navigation. State the unique usable photo count, Recommended numbers and Available numbers.
+Maintain the current review selection within the active workflow so later revisions refer to the same numbering unless a brand-new review run is requested.
+## Return to the Weekly Client Update workflow
 
-Maintain the current review selection within this conversation so later revisions refer to the same numbering unless a brand-new review run is requested.
-
-## Handoff to Weekly Client Update Specialist
-
-When asked by the Weekly Client Update Specialist, return a concise machine-usable handoff containing:
+When this Skill runs inside the Weekly Client Update Specialist, retain the following information in the active workflow state. When the Skill is delegated to a separate worker, return the same information as a concise machine-usable handoff:
 
 - Job number/name;
 - reporting period;
@@ -124,10 +123,10 @@ When asked by the Weekly Client Update Specialist, return a concise machine-usab
   - original attachment filename; and
 - up to three Available alternatives with the same identifiers.
 
-Do not send raw image bytes to the requesting bot unless the runtime explicitly supports transferring them. The requesting bot should use the returned Site Diary id + attachment id to fetch only the recommended JPEGs itself.
+When running inside the same bot, reuse already retrieved image content where available. When delegated, transfer raw image content only if the runtime explicitly supports it; otherwise return the stable source identifiers so the calling Weekly Client Update workflow can retrieve only the Recommended images it needs to present.
 
 ## Selection revisions
 
-If the builder changes the selection in this bot, update the current recommended set and be ready to return the revised handoff to the Weekly Client Update Specialist.
+If the builder changes the selection, update the current Recommended set and keep the revised selection available to the active Weekly Client Update workflow or delegated worker.
 
 Never silently change the builder's explicit selection.
