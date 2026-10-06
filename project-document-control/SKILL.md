@@ -308,15 +308,22 @@ items, are durably accounted for. Use a small overlap and identity deduplication
 
 ## Builder presentation
 
-Start with:
+Start with the plain, normal-size sentence:
 “Project documents requiring your decision”
 
-Show that heading only when there are actionable items.
+Show that sentence only when there are actionable items; do not format it as a heading.
 No opening work log, top counts, tables or narrow columns.
 
-Give each document a separate heading, generous blank lines and a divider:
+Give each document a level-two Markdown heading (##), generous blank lines and
+an explicit visible text divider after its final decision option and before the
+next document. Use this exact literal line on its own, with a blank line above
+and below; do not substitute Markdown --- or an HTML horizontal rule:
 
-### [number] · [short document description]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use this document structure:
+
+## [number] · [short document description]
 
 **Status:** [appropriate status]
 
@@ -330,12 +337,15 @@ Give each document a separate heading, generous blank lines and a divider:
 
 **Source:** [verified original file or email link]
 
-### 👇 YOUR DECISION
+**👇 YOUR DECISION**
 
 [Each applicable option in its own spaced block: coloured marker, bold action,
-one short explanation and a bold exact reply using the item's display number.]
+one short explanation and a bold exact reply using the item's display number.
+Leave a blank line before the Reply line and between options. Keep YOUR DECISION
+bold at normal body size, not a Markdown heading. Apply this to held items too;
+never compress multiple choices into one sentence.]
 
----
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Use:
 - 🟢 Ready to publish
@@ -347,9 +357,11 @@ For Ready to publish, show the full human-readable proposed folder path and
 use this decision block:
 
 🟢 **Publish** — file this document in the proposed folder.
+
 Reply: **Publish 015**
 
 🟠 **Keep on hold** — leave it unfiled.
+
 Reply: **Hold 015**
 
 Replace 015 with the item's actual display number. Put an evidence-supported
@@ -362,6 +374,9 @@ such as “015 belongs to [project]” or “015 current plans”, using the ite
 number. Present the question and each valid option in the same prominent
 YOUR DECISION block; do not offer unsupported actions.
 Resolving a question does not approve a newly proposed different write.
+Label project-identity choices Confirm project or Assign project, not File against.
+Explain that confirmation resolves identity only; in Review only mode, filing
+still requires a checked proposal and separate Publish approval.
 
 For uploaded but unverified items, show the actual stored location and
 the specific remaining issue. Offer Retry verification only when a retry
@@ -371,6 +386,9 @@ Show all current decision items together.
 No Show more, folder letter codes, technical IDs, hashes, generic Details
 instructions or directions to search earlier messages.
 Do not fabricate clickable buttons or openable attachment links.
+Preserve verified source URLs exactly when redisplaying or reformatting records.
+Never regenerate, guess or edit message/thread identifiers; change a source link
+only after verifying the replacement against the actual source record.
 
 After decision items, show:
 
