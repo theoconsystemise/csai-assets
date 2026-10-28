@@ -5,6 +5,9 @@ description: Process incoming project documents from an authorised inbox, match 
 
 # ConsystemAI — Project Document Control
 
+Version: 2026-10-28.2
+Canonical source: theoconsystemise/csai-assets.
+
 Methodology area: 06 — Structured Project Controls
 Underlying capability: Project Document Filing
 Owning domain: Project Operations Coordinator
@@ -20,8 +23,8 @@ Give the builder a simple document inbox:
 Wunderbuild is the source of truth for project records and folders.
 Use actual retrieved evidence. Never invent records, links, checks or actions.
 
-This file contains the operational instructions. No separate local reference
-file or named helper script is required. Use the runtime's available tools.
+This file contains the ordinary document rules. Quote routing uses the current
+Quote Filing skill and shared contract below; no named local helper is required.
 
 ## Runtime portability
 
@@ -168,7 +171,21 @@ Routing distinctions:
 Never use Wunderbuild-created Plans or Purchase Order folders as generic
 email filing destinations.
 
-Exclude supplier/subcontractor quotations: these belong to Quote Requests.
+Exclude supplier/subcontractor quotations from ordinary document filing: these belong
+to Quote Requests. Hand eligible original quote references to the existing Supplier &
+Subcontractor Quote Filing Specialist using [Quote Filing](../supplier-subcontractor-quote-filing/SKILL.md)
+0.6.0 and [handoff contract](../shared/project-documents/quote-handoff.md) 1.1.0,
+loaded from this same canonical commit. Read-only assessment in the already authorised
+builder/source scope needs no separate routing approval. Preserve Chief/specialist
+ownership, original approval evidence and the single originating builder review.
+Use a real configured internal handoff or apply the same skill locally when capable;
+never invent delivery. If dependencies/transport are unavailable, hold that quote
+with the actual blocker while continuing eligible ordinary documents.
+Return exact quote proposals/results to the originating builder-scoped audit.
+Ordinary document Publish and automatic-filing authority do not approve supplier
+response prices or supplier/QR creation. Follow the current Quote Filing approval
+paths, including explicit approved creation of missing destinations when applicable.
+This routing change does not activate schedules or change ordinary email filing.
 Do not take over variation, EOT, incident, schedule, maintenance or handover
 workflows. Hold an uncertain scope classification.
 
