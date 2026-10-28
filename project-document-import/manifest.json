@@ -1,0 +1,69 @@
+{
+  "name": "project-document-import",
+  "version": "0.3.0",
+  "shared_contract_version": "1.2.0",
+  "repository": "theoconsystemise/csai-assets",
+  "baseline_commit": "32afa24ef5f195498b9417cc3d7f9de3a75ff5a0",
+  "runtime_validation": "NOT TESTED",
+  "providers": {
+    "google-drive": "instruction adapter 0.1.0; Grok NOT TESTED",
+    "onedrive": "NOT IMPLEMENTED",
+    "dropbox": "NOT IMPLEMENTED"
+  },
+  "policies": [
+    {
+      "path": "project-document-control/SKILL.md",
+      "version": "2026-10-28.2",
+      "required_sections": [
+        "Project matching",
+        "Folder selection",
+        "Duplicate and revision rules",
+        "Tender packages and derived documents",
+        "Filing and verification",
+        "Persistent queue and audit",
+        "Decisions, corrections and learning",
+        "Configuration and authority"
+      ]
+    },
+    {
+      "path": "supplier-subcontractor-quote-filing/SKILL.md",
+      "version": "0.6.0",
+      "required_sections": [
+        "Authority and scope",
+        "Find and verify the destination",
+        "Duplicate and revision decisions",
+        "File the quote in Wunderbuild",
+        "Handoffs",
+        "Missing supplier",
+        "Missing Quote Request or supplier response",
+        "Load and report the exact version"
+      ]
+    },
+    {
+      "path": "supplier-subcontractor-quote-filing/references/wunderbuild-api.md",
+      "version": "0.5.0",
+      "required_sections": [
+        "Execution sequence",
+        "Supplier and Quote Request preflight",
+        "Status and verification"
+      ]
+    }
+  ],
+  "sha256": {
+    "project-document-import/SKILL.md": "e56b59d9a6fbad8254bbd0bef873c60c0fc85d96dfb79198e223206674752f82",
+    "project-document-import/references/google-drive.md": "8eaae93918df6bbd0b31ad08e412c7d788773b97eee9c7b4fa96c46201ac7b14",
+    "project-document-import/references/audit.md": "f9b26171bd9e3bf54fc1ec14b178c21e049b0c21100a354b1a45d7692211dc4c",
+    "shared/project-documents/rules.md": "5aca07a6ac59111a0e3e37eefe785ec05895f04fb3ab78bc1962df93132f98e2",
+    "shared/project-documents/quote-handoff.md": "aa494345614c361771ee0a739c62ac1c9a66d75ae68388c2f5e1c9d68dfb7b0e",
+    "checks/validate_project_document_import.py": "2ba0967ff73702ebee49eafffeaa7e1b595244f9fbef6c93f4128dcf1a7bc4bc",
+    "supplier-subcontractor-quote-filing/SKILL.md": "99325f248ca611e820869b536e56c9fab8e929377743650af91e2862608cf311",
+    "supplier-subcontractor-quote-filing/references/wunderbuild-api.md": "03541b2c5dc3dd6e57bd7fc20769f7e06efd255cb8563e1022173f83650d0691",
+    "project-document-control/SKILL.md": "eb4347b43a9693e02ee450f2dc3fb7fd155b28829d973b60e003b8424d9dd701",
+    "project-document-import/references/development-validation.md": "4b55b354f4ed5b0f420700e1fc6b4b9145df3e29664d25800a2a5137db0cbaba"
+  },
+  "quote_handoff_version": "1.1.0",
+  "withdrawn_releases": [
+    "Project Document Import 0.1.0/0.2.0 from retired private repository",
+    "Quote Filing 0.3.0 integration from retired private repository"
+  ]
+}
